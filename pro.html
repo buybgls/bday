@@ -1,0 +1,178 @@
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+.vault { padding: 1.25rem 1rem 1.5rem; font-family: var(--font-sans); background: #080000; min-height: 100vh; min-height: 100dvh; width: 100%; }
+.dl-header { text-align: center; padding: 1rem 0; border-bottom: 1px solid #8B000033; margin-bottom: 1.25rem; position: relative; }
+.dl-header::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: #8B0000; border-radius: 2px 2px 0 0; }
+.dl-title { font-size: 22px; font-weight: 500; color: #E8E8E8; }
+.dl-sub { font-size: 11px; color: #8B0000; margin-top: 4px; letter-spacing: 0.08em; text-transform: uppercase; }
+.banner { border: 1px solid #8B000055; border-radius: 10px; padding: 0.85rem 1rem; text-align: center; margin-bottom: 1rem; background: #140000AA; color: #CC2222; font-size: 14px; font-weight: 500; position: relative; }
+.banner::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: #8B0000; border-radius: 3px 0 0 3px; }
+.banner::after { content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 3px; background: #8B0000; border-radius: 0 3px 3px 0; }
+.section-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #8B0000; margin: 1.1rem 0 0.5rem; display: flex; align-items: center; gap: 8px; }
+.section-label::after { content: ''; flex: 1; height: 1px; background: #8B000033; }
+.item-card { background: #140000AA; border: 1px solid #8B000044; border-radius: 10px; padding: 0.8rem 0.9rem; margin-bottom: 7px; cursor: pointer; transition: background 0.3s cubic-bezier(0.4,0,0.2,1), border-color 0.3s cubic-bezier(0.4,0,0.2,1); position: relative; overflow: hidden; }
+.item-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: #8B000077; border-radius: 2px 0 0 2px; transition: background 0.3s cubic-bezier(0.4,0,0.2,1); }
+.item-card:hover { background: #200000BB; border-color: #AA000077; }
+.item-card:hover::before { background: #8B0000; }
+.card-header { display: flex; align-items: center; gap: 11px; }
+.item-icon { width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: #0A000088; border: 1px solid #8B000055; color: #8B0000; font-size: 17px; transition: color 0.3s cubic-bezier(0.4,0,0.2,1), border-color 0.3s cubic-bezier(0.4,0,0.2,1); }
+.item-card:hover .item-icon { color: #CC2222; border-color: #8B000099; }
+.item-content { flex: 1; min-width: 0; }
+.item-title { font-size: 14px; font-weight: 500; color: #E8E8E8; }
+.item-sub { font-size: 11px; color: #CC4444; margin-top: 2px; }
+.badge { font-size: 10px; padding: 2px 7px; border-radius: 5px; font-weight: 500; flex-shrink: 0; border: 1px solid #8B000066; color: #CC2222; background: #14000088; letter-spacing: 0.04em; }
+.expand-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.35s cubic-bezier(0.4,0,0.2,1), margin-top 0.4s cubic-bezier(0.4,0,0.2,1), padding-top 0.4s cubic-bezier(0.4,0,0.2,1); opacity: 0; overflow: hidden; margin-top: 0; padding-top: 0; border-top: 1px solid transparent; }
+.expand-body.open { grid-template-rows: 1fr; opacity: 1; margin-top: 10px; padding-top: 10px; border-top: 1px solid #8B000033; }
+.expand-inner { overflow: hidden; }
+.tip-row { display: flex; align-items: flex-start; gap: 7px; margin-bottom: 6px; }
+.tip-dot { width: 4px; height: 4px; border-radius: 50%; background: #8B0000; margin-top: 5px; flex-shrink: 0; }
+.tip-text { font-size: 12px; color: #CC4444; line-height: 1.5; }
+.tip-text span { color: #FF5555; font-weight: 500; }
+.dm-box { background: #0A000099; border: 1px solid #8B000055; border-radius: 8px; padding: 0.6rem 0.8rem; margin-top: 8px; }
+.dm-label { font-size: 10px; color: #8B0000; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 3px; }
+.dm-val { font-size: 12px; color: #CC2222; font-weight: 500; }
+.redirect-btn { width: 100%; margin-top: 8px; padding: 0.6rem; background: #8B0000; color: #fff; border: none; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; transition: background 0.3s cubic-bezier(0.4,0,0.2,1), transform 0.15s cubic-bezier(0.4,0,0.2,1); }
+.redirect-btn:hover { background: #AA0000; }
+.redirect-btn:active { transform: scale(0.98); }
+.footer { text-align: center; margin-top: 1rem; font-size: 11px; color: #8B000055; letter-spacing: 0.04em; }
+.chevron { font-size: 13px; color: #8B0000; transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); }
+.chevron.open { transform: rotate(180deg); }
+</style>
+
+<div class="vault">
+  <div class="dl-header">
+    <div class="dl-title">Happy birthday</div>
+    <div class="dl-sub">Knowledge vault</div>
+  </div>
+
+  <div class="banner">From [Your Name] with love and degeneracy</div>
+
+  <div class="section-label">the goods</div>
+
+  <div class="item-card" onclick="toggle('crypto')">
+    <div class="card-header">
+      <div class="item-icon">₿</div>
+      <div class="item-content">
+        <div class="item-title">Crypto caller guide</div>
+        <div class="item-sub">Legit vs fake, how to tell them apart</div>
+      </div>
+      <span class="badge">guide</span>
+      <span class="chevron" id="chev-crypto">▼</span>
+    </div>
+    <div class="expand-body" id="body-crypto">
+      <div class="expand-inner">
+        <div class="tip-row"><div class="tip-dot"></div><div class="tip-text">Real callers usually have a <span>Twitter account</span>, check there first</div></div>
+        <div class="tip-row"><div class="tip-dot"></div><div class="tip-text">Tons of fakes out there nowadays, verify before you trust anyone</div></div>
+        <div class="tip-row"><div class="tip-dot"></div><div class="tip-text">Verified good: <span>coldtrz</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="item-card" onclick="toggle('scam')">
+    <div class="card-header">
+      <div class="item-icon">🛡</div>
+      <div class="item-content">
+        <div class="item-title">Scammer list</div>
+        <div class="item-sub">Known bad actors, stay safe</div>
+      </div>
+      <span class="badge">avoid</span>
+      <span class="chevron" id="chev-scam">▼</span>
+    </div>
+    <div class="expand-body" id="body-scam">
+      <div class="expand-inner">
+        <div class="tip-row"><div class="tip-dot"></div><div class="tip-text">Deadlox aka <span>loxiswise / loxonweed / loxC</span></div></div>
+        <div class="dm-box">
+          <div class="dm-label">Not sure if someone is safe?</div>
+          <div class="dm-val">DM me and I will tell you if you should trust them</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="item-card" onclick="toggle('opus')">
+    <div class="card-header">
+      <div class="item-icon">🧠</div>
+      <div class="item-content">
+        <div class="item-title">Free Opus 5 and Fable 5 method</div>
+        <div class="item-sub">Tap to access</div>
+      </div>
+      <span class="badge">method</span>
+      <span class="chevron" id="chev-opus">▼</span>
+    </div>
+    <div class="expand-body" id="body-opus">
+      <div class="expand-inner">
+        <button class="redirect-btn" onclick="event.stopPropagation(); window.open('https://glitterai.net','_blank')">Open glitterai.net</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="item-card" onclick="toggle('casino')">
+    <div class="card-header">
+      <div class="item-icon">🃏</div>
+      <div class="item-content">
+        <div class="item-title">Casino leech bible</div>
+        <div class="item-sub">Best spots by goal, bypass methods</div>
+      </div>
+      <span class="badge">casino</span>
+      <span class="chevron" id="chev-casino">▼</span>
+    </div>
+    <div class="expand-body" id="body-casino">
+      <div class="expand-inner">
+        <div class="tip-row"><div class="tip-dot"></div><div class="tip-text"><span>Gamblit</span> zero investment, $3/day per account, pairs with the auto rain joiner</div></div>
+        <div class="tip-row"><div class="tip-dot"></div><div class="tip-text">Free Gamblit account: DM <span>bomboclun bomboclat 5313</span></div></div>
+        <div class="tip-row"><div class="tip-dot"></div><div class="tip-text"><span>CSGOGem</span> needs $40 deposit, rain ban risk, $5/day not worth the downside</div></div>
+        <div class="tip-row"><div class="tip-dot"></div><div class="tip-text"><span>Detection bypass:</span> Use <span>noid.it.pro</span> or switch browser + VPN — works across all sites</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="item-card" onclick="toggle('deals')">
+    <div class="card-header">
+      <div class="item-icon">🏷</div>
+      <div class="item-content">
+        <div class="item-title">Cheap deals guide</div>
+        <div class="item-sub">Nitro for $5, Robux at half price and more</div>
+      </div>
+      <span class="badge">deals</span>
+      <span class="chevron" id="chev-deals">▼</span>
+    </div>
+    <div class="expand-body" id="body-deals">
+      <div class="expand-inner">
+        <div class="tip-row"><div class="tip-dot"></div><div class="tip-text">Search any marketplace for what you need</div></div>
+        <div class="tip-row"><div class="tip-dot"></div><div class="tip-text">Good spot: <span>discord.gg/teamflowgt</span></div></div>
+        <div class="tip-row"><div class="tip-dot"></div><div class="tip-text">Warning: Teamflow is the biggest home to <span>Finnish dog scammers</span>, verify before buying</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="item-card" onclick="toggle('src')">
+    <div class="card-header">
+      <div class="item-icon">💻</div>
+      <div class="item-content">
+        <div class="item-title">Gamblit Autojoin</div>
+        <div class="item-sub">Auto rain joiner script</div>
+      </div>
+      <span class="badge">src</span>
+      <span class="chevron" id="chev-src">▼</span>
+    </div>
+    <div class="expand-body" id="body-src">
+      <div class="expand-inner">
+        <button class="redirect-btn" onclick="event.stopPropagation(); window.open('https://drive.google.com/drive/folders/1ugy6dfALEmeJFKUxi4O9L0RAY-PTf7Ny','_blank')">Open Gamblit Autojoin</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">two hours of brain. priceless.</div>
+</div>
+
+<script>
+function toggle(id) {
+  const body = document.getElementById('body-' + id);
+  const chev = document.getElementById('chev-' + id);
+  if (!body || !chev) return;
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  chev.classList.toggle('open', !isOpen);
+}
+</script>
